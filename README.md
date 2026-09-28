@@ -14,6 +14,7 @@ This unofficial custom firmware extends **Meshtastic 2.7.23.b246bcd**, tested on
 
 ## Start here
 
+- **[Set up weather for your own location](LOCAL-WEATHER-SETUP.md)** — coordinates, timezones, official alert districts, rebuilding and verification. The downloadable firmware is configured for London; changing Wi-Fi or GPS does not change that.
 - [Configuration, build, controls and recovery](WEATHER-BOT-README.md)
 - [Hardware validation and limitations](VALIDATION.md)
 - [Original Meshtastic README](README-MESHTASTIC.md)

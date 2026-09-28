@@ -1,6 +1,8 @@
 # Butthead London weather bot
 
-This extends real Meshtastic **2.7.23.b246bcd**, the firmware already proven on this particular Heltec V4.3. Branch: `butthead-weather-bot`. Build environment: `heltec-v4-weather`, inheriting the stock `heltec-v4` environment. The stock board definition, pins, partition layout, SX1262 driver and V4.3 KCT8103L front-end detection are unchanged. No newer stock firmware is needed or used.
+This extends real Meshtastic **2.7.23.b246bcd**, the firmware already proven on this particular Heltec V4.3. Public branch: `main`. Build environment: `heltec-v4-weather`, inheriting the stock `heltec-v4` environment. The stock board definition, pins, partition layout, SX1262 driver and V4.3 KCT8103L front-end detection are unchanged. No newer stock firmware is needed or used.
+
+For another city, follow **[Set up weather for your own location](LOCAL-WEATHER-SETUP.md)**. Location and alert districts are compiled into the firmware; the current downloadable binary is for London, Ontario.
 
 ## Behavior
 

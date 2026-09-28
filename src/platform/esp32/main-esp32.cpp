@@ -34,6 +34,8 @@ void setBluetoothEnable(bool enable)
 {
 #ifdef USE_WS5500
     if ((config.bluetooth.enabled == true) && (config.network.wifi_enabled == false))
+#elif defined(BUTTHEAD_WEATHER_BOT) && defined(CONFIG_IDF_TARGET_ESP32S3)
+    if (config.bluetooth.enabled == true)
 #elif HAS_WIFI
     if (!isWifiAvailable() && config.bluetooth.enabled == true)
 #else

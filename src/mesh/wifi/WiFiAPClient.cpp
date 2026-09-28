@@ -303,10 +303,15 @@ bool initWifi()
 #ifdef ARCH_ESP32
             WiFi.onEvent(WiFiEvent);
             WiFi.setAutoReconnect(true);
+#if defined(BUTTHEAD_WEATHER_BOT)
+            WiFi.setSleep(true);
+            esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
+#else
             WiFi.setSleep(false);
 
             // This is needed to improve performance.
             esp_wifi_set_ps(WIFI_PS_NONE); // Disable radio power saving
+#endif
 
             WiFi.onEvent(
                 [](WiFiEvent_t event, WiFiEventInfo_t info) {

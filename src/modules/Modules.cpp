@@ -1,4 +1,7 @@
 #include "configuration.h"
+#if defined(BUTTHEAD_WEATHER_BOT)
+#include "WeatherBotModule.h"
+#endif
 #if !MESHTASTIC_EXCLUDE_INPUTBROKER
 #include "buzz/BuzzerFeedbackThread.h"
 #include "modules/SystemCommandsModule.h"
@@ -109,6 +112,9 @@
  */
 void setupModules()
 {
+#if defined(BUTTHEAD_WEATHER_BOT)
+    new WeatherBotModule();
+#endif
 #if (HAS_BUTTON || ARCH_PORTDUINO) && !MESHTASTIC_EXCLUDE_INPUTBROKER
     if (config.display.displaymode != meshtastic_Config_DisplayConfig_DisplayMode_COLOR) {
         inputBroker = new InputBroker();

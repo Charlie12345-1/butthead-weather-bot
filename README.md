@@ -1,39 +1,44 @@
-<div align="center" markdown="1">
+# Butthead Weather Bot for Meshtastic
 
-<img src=".github/meshtastic_logo.png" alt="Meshtastic Logo" width="80"/>
-<h1>Meshtastic Firmware</h1>
+London, Ontario weather reports and official ECCC alerts from a real Meshtastic node.
 
-![GitHub release downloads](https://img.shields.io/github/downloads/meshtastic/firmware/total)
-[![CI](https://img.shields.io/github/actions/workflow/status/meshtastic/firmware/main_matrix.yml?branch=master&label=actions&logo=github&color=yellow)](https://github.com/meshtastic/firmware/actions/workflows/ci.yml)
-[![CLA assistant](https://cla-assistant.io/readme/badge/meshtastic/firmware)](https://cla-assistant.io/meshtastic/firmware)
-[![Fiscal Contributors](https://opencollective.com/meshtastic/tiers/badge.svg?label=Fiscal%20Contributors&color=deeppink)](https://opencollective.com/meshtastic/)
-[![Vercel](https://img.shields.io/static/v1?label=Powered%20by&message=Vercel&style=flat&logo=vercel&color=000000)](https://vercel.com?utm_source=meshtastic&utm_campaign=oss)
+This unofficial custom firmware extends **Meshtastic 2.7.23.b246bcd**, tested on one **Heltec WiFi LoRa 32 V4.3** with 16 MiB flash and 2 MiB PSRAM. It preserves the stock `heltec-v4` board support and adds the `heltec-v4-weather` build environment. It is not an official Meshtastic release and is not a substitute for official emergency notifications.
 
-<a href="https://trendshift.io/repositories/5524" target="_blank"><img src="https://trendshift.io/api/badge/repositories/5524" alt="meshtastic%2Ffirmware | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+## Features
 
-</div>
+- Concise LongFast primary-channel forecasts at **7 AM and 7 PM America/Toronto**, including daylight saving and tomorrow's outlook.
+- Official ECCC London/Eastern Middlesex and Western Middlesex alerts checked every **15 minutes**. New or changed alerts do not wait for a scheduled forecast.
+- Persistent duplicate suppression, bounded messages, conservative airtime use, and quiet network-failure retries.
+- Existing Meshtastic Wi-Fi configuration, normal LoRa messaging/routing, and Bluetooth/Wi-Fi coexistence on the tested ESP32-S3 board.
+- Local USB preview, enable/disable, status, and a persistently limited one-time test command.
 
-</div>
+## Start here
 
-<div align="center">
-	<a href="https://meshtastic.org">Website</a>
-	-
-	<a href="https://meshtastic.org/docs/">Documentation</a>
-</div>
+- [Configuration, build, controls and recovery](WEATHER-BOT-README.md)
+- [Hardware validation and limitations](VALIDATION.md)
+- [Original Meshtastic README](README-MESHTASTIC.md)
+- [Official baseline source](https://github.com/meshtastic/firmware/tree/v2.7.23.b246bcd)
 
-## Overview
+Clone this repository, initialize its submodules, then build:
 
-This repository contains the official device firmware for Meshtastic, an open-source LoRa mesh networking project designed for long-range, low-power communication without relying on internet or cellular infrastructure. The firmware supports various hardware platforms, including ESP32, nRF52, RP2040/RP2350, and Linux-based devices.
+```sh
+git submodule update --init --recursive
+python -m pip install platformio
+python -m platformio run -e heltec-v4-weather
+```
 
-Meshtastic enables text messaging, location sharing, and telemetry over a decentralized mesh network, making it ideal for outdoor adventures, emergency preparedness, and remote operations.
+Use a short checkout path on Windows. Before flashing, identify your exact board and active partition and preserve a private backup of your configuration and flash. The tested board's application-only update used offset `0x10000`; do not assume that offset or the same target for other hardware.
 
-### Get Started
+The weather module is in `src/modules/WeatherBot*`. Report hours, coordinates, timezone and alert districts are in `WeatherBotConfig.h`. Wi-Fi credentials are entered through normal Meshtastic settings, never compiled into source. The local helper requires `--node` with your own node ID.
 
-- 🔧 **[Building Instructions](https://meshtastic.org/docs/development/firmware/build)** – Learn how to compile the firmware from source.
-- ⚡ **[Flashing Instructions](https://meshtastic.org/docs/getting-started/flashing-firmware/)** – Install or update the firmware on your device.
+## Validation
 
-Join our community and help improve Meshtastic! 🚀
+The firmware was built, flashed and tested on the target V4.3. Wi-Fi, Bluetooth, official alert downloads, forecasts, LoRa receive/repeat traffic and reboot persistence were checked. One marked test forecast was transmitted and rebroadcast by a neighboring node. Parser/scheduler tests cover duplicates, updates, invalid data and DST without transmitting mock alerts. The actual 7 AM/7 PM deadlines were not awaited, and this is not a long-term uptime guarantee.
 
-## Stats
+## Credits and license
 
-![Alt](https://repobeats.axiom.co/api/embed/8025e56c482ec63541593cc5bd322c19d5c0bdcf.svg "Repobeats analytics image")
+Based on [Meshtastic firmware](https://github.com/meshtastic/firmware), retaining its [GPL-3.0 license](LICENSE) and upstream notices. Weather-bot additions are distributed under the same license. Meshtastic is a trademark of its respective owner; this project does not imply endorsement.
+
+Forecast data: [Open-Meteo](https://open-meteo.com/), CC BY 4.0. Official alert data: [Environment and Climate Change Canada's MSC GeoMet](https://api.weather.gc.ca/collections/weather-alerts?f=html). Current forecast conditions are model-based. Fixture files contain public weather data, not device configuration.
+
+Private flash dumps, Wi-Fi passwords, channel keys, identity keys, personal device identifiers and raw commissioning logs are not included.

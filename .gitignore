@@ -56,3 +56,13 @@ CMakeLists.txt
 .python3
 .claude/scheduled_tasks.lock
 userPrefs.jsonc.mcp-session-bak
+
+# Local device credentials and recovery data must never be published.
+/work/
+/private-recovery/
+/verification/
+/firmware/
+wifi.json
+device-config.json
+*.bin
+*.elf

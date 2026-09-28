@@ -62,3 +62,5 @@ No fabricated alert was transmitted. Routine node information and routing traffi
 ## Publication checks
 
 The public copy changes documentation and requires an explicit node ID in the local control helper. The firmware source remains identical to the source used for the validated binary. Device identifiers, private backups and raw radio logs are excluded.
+
+Upstream GitHub build/release workflows are excluded from this custom public branch. Firmware builds and tests remain available locally; this repository does not publish official Meshtastic releases.
